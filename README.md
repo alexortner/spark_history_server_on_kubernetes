@@ -75,8 +75,9 @@ spec:
 This `pvc` has to be mounted into the Spark job yaml and the history server yaml
 
 ```yaml
+...
 spec:
-	containers:
+  containers:
     - name: job
       image: xx
         volumeMounts:
@@ -87,6 +88,7 @@ spec:
   - name: log-data
     persistentVolumeClaim:
     claimName: spark-history-server
+...
 ```
 
 #### Deployment
