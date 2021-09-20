@@ -249,7 +249,7 @@ appVersion: 1.0.0
 
 parameters used in the resource yaml files
 
-```
+```yaml
 namespace: "spark-poc"
 replicaCount: 1
 nameOverride: "spark-history-server"
