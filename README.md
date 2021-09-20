@@ -13,6 +13,9 @@ The official Spark binaries already include the spark history server available. 
 The basic Idea of the setup is, that the spark application writes the logs in a directory that is persistant and from there the Spark history server can read the data afterwards
 
 
+![drawio_spark-history-server-architecture](https://user-images.githubusercontent.com/16557412/134069388-e4b7f4a0-f4ea-4a11-8b6d-dacd73707431.png)
+
+
 ## Docker Image
 
 We need to build a new docker image and modify the standard Spark Dockerfile a bit to start the history server instead of the driver or executor. Please follow the instruction on the latest Spark documentation to build the initial Spark Docker images first and than add an additional layer with a new entrypoint by creating a new Dockerfile with the following content.
