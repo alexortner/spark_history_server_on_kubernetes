@@ -1,0 +1,18 @@
+{{- if .Values.service.enabled -}}
+# create service to expose history server for ingress
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.service.name }}
+  labels:
+    {{- include "spark-history-server.labels" . | nindent 4 }}
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    {{- include "spark-history-server.selectorLabels" . | nindent 4 }}
+  ports:
+  - port: 18080
+    protocol: TCP
+    targetPort: 18080
+  type: ClusterIP
+{{- end }}

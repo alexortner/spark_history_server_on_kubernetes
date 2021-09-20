@@ -1,0 +1,41 @@
+# Default values for spark-history-server.
+namespace: "spark-poc"
+replicaCount: 1
+
+nameOverride: "spark-history-server"
+fullnameOverride: "spark-history-server"
+
+deployment:
+  enable: true
+  name: "deploy-spark-history-server"
+  image: "svr-nexus01.local.parcit:8124/repository/dm-docker/spark-poc/spark-history-server:3.1.2"
+  pullPolicy: Always
+  
+
+pvc:
+  enable: false
+  name: "pvc-spark-history-server"
+  storageClassName: "longorn"
+
+service:
+  enabled: true
+  name: "svn-spark-history-server"
+
+ingress:
+  enabled: true
+  name: "ingress-spark-history-server"
+  host: "spark-history.k8s-prod1.local.parcit"
+
+
+resources:
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  limits:
+    cpu: 2
+    memory: 10Gi
+  requests:
+    cpu: 100m
+    memory: 1Gi
+

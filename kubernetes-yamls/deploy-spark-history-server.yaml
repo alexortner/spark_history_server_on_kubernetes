@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spark-history-server
+  namespace: spark-poc
+  labels:
+    app: spark-history-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spark-history-server
+  template:
+    metadata:
+      name: spark-history-server
+      labels:
+        app: spark-history-server
+    spec:
+      containers:
+        - name: spark-history-server
+          image: svr-nexus01.local.parcit:8124/repository/dm-docker/spark-poc/spark-history-server:3.1.2
+          env:
+            - name: SPARK_NO_DAEMONIZE
+              value: "false"
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "100m"
+            limits:
+              memory: "10Gi"
+              cpu: "2"
+          ports:
+            - name: http
+              protocol: TCP
+              containerPort: 18080
+          volumeMounts:
+            - name: data
+              mountPath: /tmp/spark-events
+              readOnly: true
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: spark-history-server

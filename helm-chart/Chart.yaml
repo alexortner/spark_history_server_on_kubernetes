@@ -1,0 +1,6 @@
+apiVersion: v2
+name: spark-history-server
+description: Spark History Server for ParcIT Kubernetes Spark Jobs
+type: application
+version: 1.0.0
+appVersion: 1.0.0

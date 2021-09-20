@@ -1,0 +1,14 @@
+# create service to expose history server for ingress
+apiVersion: v1
+kind: Service
+metadata:
+  name: spark-history-server
+  namespace: spark-poc
+spec:
+  selector:
+    app: spark-history-server
+  ports:
+  - port: 18080
+    protocol: TCP
+    targetPort: 18080
+  type: ClusterIP

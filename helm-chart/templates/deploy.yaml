@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.deployment.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "spark-history-server.labels" . | nindent 4 }}
+    app: spark-history-server
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: spark-history-server
+  template:
+    metadata:
+      name: spark-history-server
+      labels:
+        app: spark-history-server
+    spec:
+      containers:
+        - name: spark-history-server
+          image: {{ .Values.deployment.image }}
+          imagePullPolicy: {{ .Values.deployment.pullPolicy }}
+          env:
+            - name: SPARK_NO_DAEMONIZE
+              value: "false"
+          resources:
+            requests:
+              memory: {{ .Values.resources.requests.memory }}
+              cpu: {{ .Values.resources.requests.cpu }}
+            limits:
+              memory: {{ .Values.resources.limits.memory }}
+              cpu: {{ .Values.resources.limits.cpu }}
+          ports:
+            - name: http
+              protocol: TCP
+              containerPort: 18080
+          volumeMounts:
+            - name: data
+              # default path the spark history server looks for logs
+              mountPath: /tmp/spark-events
+              readOnly: true
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: {{ .Values.pvc.name }}

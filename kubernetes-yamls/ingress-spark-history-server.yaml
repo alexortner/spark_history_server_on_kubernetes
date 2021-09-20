@@ -1,0 +1,17 @@
+# create ingress
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: spark-history-server
+  namespace: spark-poc
+spec:
+  rules:
+  - host: spark-history.k8s-prod1.local.parcit
+    http:
+      paths:
+      - backend:
+          service:
+            name: spark-history-server
+            port:
+              number: 18080
+        pathType: ImplementationSpecific
